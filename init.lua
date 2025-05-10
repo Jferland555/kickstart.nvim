@@ -1,5 +1,5 @@
 --[[
-
+bonjour
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
@@ -151,7 +151,7 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 vim.opt.inccommand = 'split'
 
 -- Show which line your cursor is on
-vim.opt.cursorline = true
+-- vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
@@ -240,6 +240,8 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  'williamboman/mason.nvim', -- installs Mason
+  'tpope/vim-fugitive', -- installs Fugitive
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -529,7 +531,10 @@ require('lazy').setup({
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
-          map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
+          map('grn', vim.lsp.buf.rename, 'R]e[n]ame')
+
+          -- pas sur que ça marche
+          map('K', vim.lsp.buf.hover, 'Hover Documentation')
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
@@ -663,9 +668,9 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
+        clangd = {}, -- C LSP
         -- gopls = {},
-        -- pyright = {},
+        pyright = {}, -- Python3 LSP
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -708,6 +713,8 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'black', -- Used to format Python3
+        'clang-format', -- Used tp format C
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -761,7 +768,7 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { 'isort', 'black' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
@@ -1006,3 +1013,33 @@ require('lazy').setup({
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+
+-- lien vers cheatsheet : https://learnxinyminutes.com/lua/
+
+-- remplace le tab pas 2 espace
+vim.cmd 'set expandtab'
+vim.cmd 'set tabstop=2'
+vim.cmd 'set softtabstop=2'
+vim.cmd 'set shiftwidth=2'
+
+-- key confifurations
+vim.keymap.set('n', 'ç', '{', { noremap = true, silent = true, desc = 'Go to the next empty line' })
+vim.keymap.set('n', 'à', '}', { noremap = true, silent = true, desc = 'Go to the next empty line' })
+
+vim.keymap.set('v', 'ç', '{', { noremap = true, silent = true, desc = 'Go to the next empty line' })
+vim.keymap.set('v', 'à', '}', { noremap = true, silent = true, desc = 'Go to the next empty line' })
+
+-- change la couleur du 51em caractère dans le fichier texte d'un commit git
+
+-- Fonction pour vérifier si le fichier est un fichier de commit Git
+function is_git_commit_file()
+  -- Vérifie si nous sommes dans un dépôt Git et si le fichier a un nom de commit (comme COMMIT_EDITMSG)
+  local file = vim.fn.expand '%:t' -- Nom du fichier actuel
+  return vim.fn.isdirectory '.git' == 1 and file == 'COMMIT_EDITMSG'
+end
+
+-- Appliquer la surbrillance uniquement si nous sommes dans un fichier de commit Git
+if is_git_commit_file() then
+  vim.cmd 'highlight OverLength ctermbg=darkred ctermfg=white guibg=#5f0000 guifg=#ffffff'
+  vim.cmd 'match OverLength /\\%51v.*/'
+end

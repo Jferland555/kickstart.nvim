@@ -1,5 +1,4 @@
 --[[
-bonjour
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
@@ -242,6 +241,14 @@ require('lazy').setup({
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'williamboman/mason.nvim', -- installs Mason
   'tpope/vim-fugitive', -- installs Fugitive
+
+  -- installs live-preview
+  {
+    'brianhuster/live-preview.nvim',
+    dependencies = {
+      'nvim-telescope/telescope.nvim',
+    },
+  },
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following

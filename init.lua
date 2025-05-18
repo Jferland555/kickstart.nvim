@@ -18,9 +18,7 @@
 ========                                                     ========
 =====================================================================
 =====================================================================
-
 What is Kickstart?
-
   Kickstart.nvim is *not* a distribution.
 
   Kickstart.nvim is a starting point for your own configuration.
@@ -1068,3 +1066,8 @@ if is_git_commit_file() then
   vim.cmd 'highlight OverLength ctermbg=darkred ctermfg=white guibg=#5f0000 guifg=#ffffff'
   vim.cmd 'match OverLength /\\%51v.*/'
 end
+
+vim.api.nvim_create_user_command('LspRefresh', function()
+  vim.diagnostic.reset()
+  vim.lsp.codelens.refresh()
+end, {})

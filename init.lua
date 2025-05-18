@@ -1047,7 +1047,14 @@ vim.keymap.set('n', 'à', '}', { noremap = true, silent = true, desc = 'Go to th
 vim.keymap.set('v', 'ç', '{', { noremap = true, silent = true, desc = 'Go to the next empty line' })
 vim.keymap.set('v', 'à', '}', { noremap = true, silent = true, desc = 'Go to the next empty line' })
 
--- change la couleur du 51em caractère dans le fichier texte d'un commit git
+-- enlever l'utilisage des flèches'
+local modes = { 'i', 'n', 'v' }
+for i = 1, #modes do
+  vim.keymap.set(modes[i], '<Up>', '<cmd> echoe "Nope" <CR>', { noremap = true, silent = true })
+  vim.keymap.set(modes[i], '<Down>', '<cmd> echoe "Nope" <CR>', { noremap = true, silent = true })
+  vim.keymap.set(modes[i], '<Left>', '<cmd> echoe "Nope" <CR>', { noremap = true, silent = true })
+  vim.keymap.set(modes[i], '<Right>', '<cmd> echoe "Nope" <CR>', { noremap = true, silent = true })
+end
 
 -- Fonction pour vérifier si le fichier est un fichier de commit Git
 function is_git_commit_file()

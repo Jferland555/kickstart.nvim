@@ -241,6 +241,17 @@ require('lazy').setup({
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
   'williamboman/mason.nvim', -- installs Mason
   'tpope/vim-fugitive', -- installs Fugitive
+  'tpope/vim-surround',
+
+  {
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    config = true,
+    opts = {
+      enable_check_bracket_line = false,
+      ignored_next_char = '[%w%.]', -- will ignore alphanumeric and `.` symbol
+    },
+  },
 
   -- installs live-preview
   {

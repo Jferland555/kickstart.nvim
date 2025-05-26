@@ -684,7 +684,7 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        clangd = {}, -- C LSP
+        clangd = {}, -- C/C++ LSP
         -- gopls = {},
         pyright = {}, -- Python3 LSP
         -- rust_analyzer = {},
@@ -785,6 +785,8 @@ require('lazy').setup({
         lua = { 'stylua' },
         -- Conform can also run multiple formatters sequentially
         python = { 'isort', 'black' },
+        c = { 'clang-format' },
+        cpp = { 'clang-format' },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
@@ -1071,3 +1073,6 @@ vim.api.nvim_create_user_command('LspRefresh', function()
   vim.diagnostic.reset()
   vim.lsp.codelens.refresh()
 end, {})
+
+-- ajoute un point virgule à la fin de la ligne
+vim.keymap.set('n', ';', 'A;<ESC>', { noremap = true, silent = true })

@@ -686,7 +686,8 @@ require('lazy').setup({
       local servers = {
         clangd = {}, -- C/C++ LSP
         -- gopls = {},
-        pyright = {}, -- Python3 LSP
+        -- pyright = {}, -- Python3 LSP
+        pylsp = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -1076,3 +1077,5 @@ end, {})
 
 -- ajoute un point virgule à la fin de la ligne
 vim.keymap.set('n', ';', 'A;<ESC>', { noremap = true, silent = true })
+
+-- changer
